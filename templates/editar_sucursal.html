@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Editar sucursal - Sistema Administrativo</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            width: 250px;
+            background: #0f172a;
+            color: white;
+            padding: 24px 16px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            padding: 0 12px 30px;
+            border-bottom: 1px solid #334155;
+            margin-bottom: 20px;
+        }
+
+        .logo small {
+            display: block;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 5px;
+            font-weight: normal;
+        }
+
+        .menu {
+            list-style: none;
+        }
+
+        .menu li {
+            margin-bottom: 6px;
+        }
+
+        .menu a {
+            display: block;
+            text-decoration: none;
+            color: #cbd5e1;
+            padding: 12px 14px;
+            border-radius: 8px;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* =========================
+           CONTENIDO
+        ========================= */
+
+        .main {
+            flex: 1;
+            padding: 30px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .topbar h1 {
+            font-size: 28px;
+            color: #0f172a;
+        }
+
+        .user-box {
+            background: white;
+            padding: 12px 18px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .user-box strong {
+            color: #0f172a;
+        }
+
+        .role {
+            display: block;
+            color: #2563eb;
+            font-size: 13px;
+            margin-top: 3px;
+        }
+
+        /* =========================
+           PANEL
+        ========================= */
+
+        .panel {
+            background: white;
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            max-width: 800px;
+        }
+
+        .panel h2 {
+            color: #0f172a;
+            margin-bottom: 25px;
+        }
+
+        /* =========================
+           FORMULARIO
+        ========================= */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .campo {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .campo.completo {
+            grid-column: 1 / -1;
+        }
+
+        .campo label {
+            font-weight: bold;
+            margin-bottom: 7px;
+            color: #334155;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            font-family: inherit;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.10);
+        }
+
+        /* =========================
+           BOTONES
+        ========================= */
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 11px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e1;
+        }
+
+        /* =========================
+           MENSAJES
+        ========================= */
+
+        .mensaje {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .mensaje.error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .mensaje.success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        @media (max-width: 700px) {
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .campo.completo {
+                grid-column: auto;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- =========================
+         MENÚ
+    ========================== -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            Sistema Administrativo
+
+            <small>
+                Panel de administración
+            </small>
+
+        </div>
+
+        <ul class="menu">
+
+            <li>
+                <a href="{{ url_for('dashboard') }}">
+                    🏠 Inicio
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('usuarios') }}">
+                    👤 Usuarios
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('roles') }}">
+                    🔐 Roles
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('empresas') }}">
+                    🏢 Empresas
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('sucursales') }}"
+                   class="active">
+                    🏬 Sucursales
+                </a>
+            </li>
+
+        </ul>
+
+    </aside>
+
+
+    <!-- =========================
+         CONTENIDO
+    ========================== -->
+
+    <main class="main">
+
+        <div class="topbar">
+
+            <h1>
+                Editar sucursal
+            </h1>
+
+            <div class="user-box">
+
+                <strong>
+                    {{ session.get("username") }}
+                </strong>
+
+                <span class="role">
+                    {{ session.get("rol", "SIN ROL") }}
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="panel">
+
+            <h2>
+                Editar: {{ sucursal.nombre }}
+            </h2>
+
+
+            <!-- MENSAJES -->
+
+            {% with mensajes = get_flashed_messages(with_categories=true) %}
+
+                {% if mensajes %}
+
+                    {% for categoria, mensaje in mensajes %}
+
+                        <div class="mensaje {{ categoria }}">
+                            {{ mensaje }}
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+            {% endwith %}
+
+
+            <!-- FORMULARIO -->
+
+            <form method="POST">
+
+                <div class="form-grid">
+
+
+                    <!-- EMPRESA -->
+
+                    <div class="campo completo">
+
+                        <label for="empresa_id">
+                            Empresa *
+                        </label>
+
+                        <select
+                            id="empresa_id"
+                            name="empresa_id"
+                            required>
+
+                            <option value="">
+                                Seleccione una empresa
+                            </option>
+
+                            {% for empresa in empresas_disponibles %}
+
+                                <option
+                                    value="{{ empresa.id }}"
+                                    {% if empresa.id == sucursal.empresa_id %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ empresa.nombre }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- NOMBRE -->
+
+                    <div class="campo completo">
+
+                        <label for="nombre">
+                            Nombre de la sucursal *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="nombre"
+                            name="nombre"
+                            maxlength="150"
+                            value="{{ sucursal.nombre }}"
+                            required>
+
+                    </div>
+
+
+                    <!-- CÓDIGO -->
+
+                    <div class="campo">
+
+                        <label for="codigo">
+                            Código
+                        </label>
+
+                        <input
+                            type="text"
+                            id="codigo"
+                            name="codigo"
+                            maxlength="50"
+                            value="{{ sucursal.codigo or '' }}">
+
+                    </div>
+
+
+                    <!-- TELÉFONO -->
+
+                    <div class="campo">
+
+                        <label for="telefono">
+                            Teléfono
+                        </label>
+
+                        <input
+                            type="text"
+                            id="telefono"
+                            name="telefono"
+                            maxlength="50"
+                            value="{{ sucursal.telefono or '' }}">
+
+                    </div>
+
+
+                    <!-- DIRECCIÓN -->
+
+                    <div class="campo completo">
+
+                        <label for="direccion">
+                            Dirección
+                        </label>
+
+                        <textarea
+                            id="direccion"
+                            name="direccion"
+                            rows="3">{{ sucursal.direccion or '' }}</textarea>
+
+                    </div>
+
+                </div>
+
+
+                <div class="actions">
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary">
+                        💾 Guardar cambios
+                    </button>
+
+                    <a
+                        href="{{ url_for('sucursales') }}"
+                        class="btn btn-secondary">
+                        ↩ Cancelar
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

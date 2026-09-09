@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Permisos de {{ rol.nombre }} - Sistema Administrativo</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f1f5f9;
+            color: #0f172a;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            width: 230px;
+            background: #0f172a;
+            color: white;
+            padding: 24px 18px;
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: bold;
+            line-height: 1.1;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 30px;
+        }
+
+        .menu {
+            border-top: 1px solid #334155;
+            padding-top: 20px;
+        }
+
+        .menu a {
+            display: block;
+            text-decoration: none;
+            color: #e2e8f0;
+            padding: 12px 14px;
+            border-radius: 8px;
+            margin-bottom: 6px;
+        }
+
+        .menu a:hover {
+            background: #1e293b;
+        }
+
+        .menu a.activo {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* =========================
+           CONTENIDO
+        ========================= */
+
+        .contenido {
+            flex: 1;
+            padding: 30px;
+        }
+
+        .encabezado {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .titulo h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .titulo p {
+            margin: 7px 0 0;
+            color: #64748b;
+        }
+
+        .usuario-box {
+            background: white;
+            padding: 12px 18px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.06);
+            text-align: right;
+        }
+
+        .usuario-box strong {
+            display: block;
+        }
+
+        .usuario-box span {
+            color: #2563eb;
+            font-size: 13px;
+        }
+
+        /* =========================
+           MENSAJES
+        ========================= */
+
+        .mensajes {
+            margin-bottom: 20px;
+        }
+
+        .mensaje {
+            padding: 13px 16px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .mensaje.success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .mensaje.error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .aviso-superadmin {
+            background: #dbeafe;
+            color: #1d4ed8;
+            padding: 14px 18px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        /* =========================
+           TARJETA
+        ========================= */
+
+        .card {
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 3px 12px rgba(0,0,0,.07);
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 22px 25px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .card-header h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .card-header p {
+            margin: 6px 0 0;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .acciones-masivas {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-mini {
+            border: 1px solid #cbd5e1;
+            background: white;
+            color: #334155;
+            padding: 8px 12px;
+            border-radius: 7px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-mini:hover {
+            background: #f1f5f9;
+        }
+
+        /* =========================
+           MÓDULOS DE PERMISOS
+        ========================= */
+
+        .modulos {
+            padding: 10px 25px 25px;
+        }
+
+        .modulo {
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            margin-top: 18px;
+            overflow: hidden;
+        }
+
+        .modulo-titulo {
+            background: #f8fafc;
+            padding: 12px 18px;
+            font-weight: bold;
+            font-size: 14px;
+            color: #334155;
+            letter-spacing: .03em;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .modulo-permisos {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            padding: 16px 18px;
+        }
+
+        .permiso-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .permiso-item input {
+            width: 17px;
+            height: 17px;
+        }
+
+        .permiso-item label {
+            cursor: pointer;
+        }
+
+        .permiso-item input:disabled + label {
+            color: #94a3b8;
+            cursor: default;
+        }
+
+        /* =========================
+           BOTONES DE ACCIÓN
+        ========================= */
+
+        .acciones {
+            display: flex;
+            gap: 12px;
+            padding: 20px 25px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            padding: 11px 18px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .btn-guardar {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-guardar:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-cancelar {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        .btn-cancelar:hover {
+            background: #cbd5e1;
+        }
+
+        @media (max-width: 900px) {
+
+            .modulo-permisos {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .sidebar {
+                width: 190px;
+            }
+
+            .contenido {
+                padding: 18px;
+            }
+
+            .modulo-permisos {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            Sistema<br>
+            Administrativo
+        </div>
+
+        <div class="subtitle">
+            Panel de administración
+        </div>
+
+        <div class="menu">
+
+            <a href="{{ url_for('inicio') }}">
+                🏠 Inicio
+            </a>
+
+            <a href="{{ url_for('usuarios') }}">
+                👤 Usuarios
+            </a>
+
+            <a href="{{ url_for('roles') }}" class="activo">
+                🔐 Roles
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- CONTENIDO -->
+    <main class="contenido">
+
+        <div class="encabezado">
+
+            <div class="titulo">
+                <h1>Permisos de {{ rol.nombre }}</h1>
+                <p>
+                    {% if rol.descripcion %}
+                        {{ rol.descripcion }}
+                    {% else %}
+                        Active o desactive los permisos de este rol
+                    {% endif %}
+                </p>
+            </div>
+
+            <div class="usuario-box">
+
+                {% if session.get("username") %}
+                    <strong>{{ session.get("username") }}</strong>
+                {% endif %}
+
+                {% if session.get("rol") %}
+                    <span>{{ session.get("rol") }}</span>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- MENSAJES -->
+        {% with mensajes = get_flashed_messages(with_categories=true) %}
+
+            {% if mensajes %}
+
+                <div class="mensajes">
+
+                    {% for categoria, mensaje in mensajes %}
+
+                        <div class="mensaje {{ categoria }}">
+                            {{ mensaje }}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        {% if rol.nombre == "SUPERADMIN" %}
+
+            <div class="aviso-superadmin">
+                El rol SUPERADMIN tiene acceso total a todo el sistema de forma automática.
+                Sus permisos se muestran solo a modo informativo y no se pueden modificar aquí.
+            </div>
+
+        {% endif %}
+
+
+        <form method="POST">
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div>
+                        <h2>Permisos del sistema</h2>
+                        <p>Agrupados por módulo</p>
+                    </div>
+
+                    {% if rol.nombre != "SUPERADMIN" %}
+
+                        <div class="acciones-masivas">
+
+                            <button type="button" class="btn-mini" onclick="marcarTodos(true)">
+                                Seleccionar todos
+                            </button>
+
+                            <button type="button" class="btn-mini" onclick="marcarTodos(false)">
+                                Deseleccionar todos
+                            </button>
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="modulos">
+
+                    {% for modulo, lista_permisos in permisos_por_modulo.items() %}
+
+                        <div class="modulo">
+
+                            <div class="modulo-titulo">
+                                {{ modulo }}
+                            </div>
+
+                            <div class="modulo-permisos">
+
+                                {% for permiso in lista_permisos %}
+
+                                    <div class="permiso-item">
+
+                                        <input
+                                            type="checkbox"
+                                            name="permisos"
+                                            value="{{ permiso.id }}"
+                                            id="permiso_{{ permiso.id }}"
+                                            class="check-permiso"
+                                            {% if permiso.id in permisos_activos_ids %}
+                                                checked
+                                            {% endif %}
+                                            {% if rol.nombre == "SUPERADMIN" %}
+                                                disabled
+                                            {% endif %}
+                                        >
+
+                                        <label for="permiso_{{ permiso.id }}">
+                                            {{ permiso.nombre }}
+                                        </label>
+
+                                    </div>
+
+                                {% endfor %}
+
+                            </div>
+
+                        </div>
+
+                    {% else %}
+
+                        <p>No hay permisos registrados en el sistema.</p>
+
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="acciones">
+
+                    {% if rol.nombre != "SUPERADMIN" %}
+
+                        <button type="submit" class="btn btn-guardar">
+                            💾 Guardar cambios
+                        </button>
+
+                    {% endif %}
+
+                    <a href="{{ url_for('roles') }}" class="btn btn-cancelar">
+                        ↩ Volver a roles
+                    </a>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </main>
+
+</div>
+
+
+<script>
+    function marcarTodos(estado) {
+
+        var checkboxes = document.querySelectorAll('.check-permiso');
+
+        checkboxes.forEach(function (checkbox) {
+
+            if (!checkbox.disabled) {
+                checkbox.checked = estado;
+            }
+
+        });
+    }
+</script>
+
+</body>
+</html>

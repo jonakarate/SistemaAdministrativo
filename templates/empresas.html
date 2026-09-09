@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Empresas - Sistema Administrativo</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            width: 250px;
+            background: #0f172a;
+            color: white;
+            padding: 24px 16px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            padding: 0 12px 30px;
+            border-bottom: 1px solid #334155;
+            margin-bottom: 20px;
+        }
+
+        .logo small {
+            display: block;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 5px;
+            font-weight: normal;
+        }
+
+        .menu {
+            list-style: none;
+        }
+
+        .menu li {
+            margin-bottom: 6px;
+        }
+
+        .menu a {
+            display: block;
+            text-decoration: none;
+            color: #cbd5e1;
+            padding: 12px 14px;
+            border-radius: 8px;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* =========================
+           CONTENIDO
+        ========================= */
+
+        .main {
+            flex: 1;
+            padding: 30px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .topbar h1 {
+            font-size: 28px;
+            color: #0f172a;
+        }
+
+        .user-box {
+            background: white;
+            padding: 12px 18px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .user-box strong {
+            color: #0f172a;
+        }
+
+        .role {
+            display: block;
+            color: #2563eb;
+            font-size: 13px;
+            margin-top: 3px;
+        }
+
+        /* =========================
+           PANEL
+        ========================= */
+
+        .panel {
+            background: white;
+            border-radius: 14px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .panel-header h2 {
+            color: #0f172a;
+        }
+
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* =========================
+           MENSAJES
+        ========================= */
+
+        .mensajes {
+            margin-bottom: 20px;
+        }
+
+        .mensaje {
+            padding: 13px 16px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .mensaje.success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .mensaje.error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* =========================
+           TABLA
+        ========================= */
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #475569;
+            text-align: left;
+            padding: 14px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        td {
+            padding: 14px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        .estado {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .activo {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .inactivo {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .btn-editar {
+            display: inline-block;
+            padding: 7px 12px;
+            border-radius: 6px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .btn-editar:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-activar,
+        .btn-desactivar {
+            display: inline-block;
+            padding: 7px 12px;
+            border-radius: 6px;
+            color: white;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+        .btn-desactivar {
+            background: #dc2626;
+        }
+
+        .btn-desactivar:hover {
+            background: #b91c1c;
+        }
+
+        .btn-activar {
+            background: #16a34a;
+        }
+
+        .btn-activar:hover {
+            background: #15803d;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- =========================
+         MENÚ
+    ========================== -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            Sistema Administrativo
+
+            <small>
+                Panel de administración
+            </small>
+
+        </div>
+
+        <ul class="menu">
+
+            <li>
+                <a href="{{ url_for('dashboard') }}">
+                    🏠 Inicio
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('usuarios') }}">
+                    👤 Usuarios
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('roles') }}">
+                    🔐 Roles
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('empresas') }}"
+                   class="active">
+                    🏢 Empresas
+                </a>
+            </li>
+
+        </ul>
+
+    </aside>
+
+
+    <!-- =========================
+         CONTENIDO
+    ========================== -->
+
+    <main class="main">
+
+        <div class="topbar">
+
+            <h1>
+                Empresas
+            </h1>
+
+            <div class="user-box">
+
+                <strong>
+                    {{ session.get("username") }}
+                </strong>
+
+                <span class="role">
+                    {{ session.get("rol", "SIN ROL") }}
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- MENSAJES -->
+        {% with mensajes = get_flashed_messages(with_categories=true) %}
+
+            {% if mensajes %}
+
+                <div class="mensajes">
+
+                    {% for categoria, mensaje in mensajes %}
+
+                        <div class="mensaje {{ categoria }}">
+                            {{ mensaje }}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <div class="panel">
+
+            <div class="panel-header">
+
+                <h2>
+                    Empresas registradas
+                </h2>
+
+                {% if tiene_permiso("EMPRESA_CREAR") %}
+
+                    <a href="{{ url_for('nueva_empresa') }}"
+                       class="btn">
+                        + Nueva empresa
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Nombre</th>
+
+                            <th>Razón social</th>
+
+                            <th>NIT</th>
+
+                            <th>Teléfono</th>
+
+                            <th>Estado</th>
+
+                            <th>Acciones</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for empresa in empresas %}
+
+                        <tr>
+
+                            <td>
+                                {{ empresa.id }}
+                            </td>
+
+                            <td>
+                                <strong>
+                                    {{ empresa.nombre }}
+                                </strong>
+                            </td>
+
+                            <td>
+                                {{ empresa.razon_social or "—" }}
+                            </td>
+
+                            <td>
+                                {{ empresa.nit or "—" }}
+                            </td>
+
+                            <td>
+                                {{ empresa.telefono or "—" }}
+                            </td>
+
+                            <td>
+
+                                {% if empresa.activo %}
+
+                                    <span class="estado activo">
+                                        ACTIVA
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="estado inactivo">
+                                        INACTIVA
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {% if tiene_permiso("EMPRESA_EDITAR") %}
+
+                                    <a href="{{ url_for('editar_empresa', empresa_id=empresa.id) }}"
+                                       class="btn-editar">
+                                        ✏️ Editar
+                                    </a>
+
+                                {% endif %}
+
+
+                                {% if tiene_permiso("EMPRESA_ELIMINAR") %}
+
+                                    {% if empresa.activo %}
+
+                                        <form method="POST"
+                                              action="{{ url_for('desactivar_empresa', empresa_id=empresa.id) }}"
+                                              style="display:inline;">
+
+                                            <button type="submit"
+                                                    class="btn-desactivar"
+                                                    onclick="return confirm('¿Está seguro de desactivar esta empresa?');">
+
+                                                🚫 Desactivar
+
+                                            </button>
+
+                                        </form>
+
+                                    {% else %}
+
+                                        <form method="POST"
+                                              action="{{ url_for('activar_empresa', empresa_id=empresa.id) }}"
+                                              style="display:inline;">
+
+                                            <button type="submit"
+                                                    class="btn-activar"
+                                                    onclick="return confirm('¿Está seguro de activar esta empresa?');">
+
+                                                ✅ Activar
+
+                                            </button>
+
+                                        </form>
+
+                                    {% endif %}
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        {% else %}
+
+                        <tr>
+
+                            <td colspan="7">
+                                No existen empresas registradas.
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard - Sistema Administrativo</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            width: 250px;
+            background: #0f172a;
+            color: white;
+            padding: 24px 16px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            padding: 0 12px 30px;
+            border-bottom: 1px solid #334155;
+            margin-bottom: 20px;
+        }
+
+        .logo small {
+            display: block;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 5px;
+            font-weight: normal;
+        }
+
+        .menu {
+            list-style: none;
+        }
+
+        .menu li {
+            margin-bottom: 6px;
+        }
+
+        .menu a {
+            display: block;
+            text-decoration: none;
+            color: #cbd5e1;
+            padding: 12px 14px;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* =========================
+           CONTENIDO
+        ========================= */
+
+        .main {
+            flex: 1;
+            padding: 30px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .topbar h1 {
+            font-size: 28px;
+            color: #0f172a;
+        }
+
+        .user-box {
+            background: white;
+            padding: 12px 18px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .user-box strong {
+            color: #0f172a;
+        }
+
+        .role {
+            display: block;
+            color: #2563eb;
+            font-size: 13px;
+            margin-top: 3px;
+        }
+
+        /* =========================
+           BIENVENIDA
+        ========================= */
+
+        .welcome {
+            background: white;
+            border-radius: 14px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .welcome h2 {
+            margin-bottom: 8px;
+            color: #0f172a;
+        }
+
+        .welcome p {
+            color: #64748b;
+        }
+
+        /* =========================
+           TARJETAS
+        ========================= */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 14px;
+            padding: 22px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .card-title {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .card-number {
+            font-size: 30px;
+            font-weight: bold;
+            color: #0f172a;
+        }
+
+        /* =========================
+           ACCESOS
+        ========================= */
+
+        .section {
+            background: white;
+            border-radius: 14px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .section h3 {
+            margin-bottom: 20px;
+            color: #0f172a;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .action {
+            display: block;
+            text-decoration: none;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 18px;
+            border-radius: 10px;
+            color: #1e293b;
+            transition: 0.2s;
+        }
+
+        .action:hover {
+            border-color: #2563eb;
+            background: #eff6ff;
+        }
+
+        .action strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .action span {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 1100px) {
+
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            .layout {
+                display: block;
+            }
+
+            .sidebar {
+                width: 100%;
+            }
+
+            .main {
+                padding: 20px;
+            }
+
+            .cards,
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                display: block;
+            }
+
+            .user-box {
+                margin-top: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- =========================
+         MENÚ LATERAL
+    ========================== -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            Sistema Administrativo
+            <small>Panel de administración</small>
+        </div>
+
+        <ul class="menu">
+
+            <li>
+                <a href="/dashboard" class="active">
+                    🏠 Inicio
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    👥 Empleados
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('empresas') }}">
+                    🏢 Empresas
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('sucursales') }}">
+                    🏬 Sucursales
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('areas') }}">
+                    🗂️ Áreas
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('cargos') }}">
+                    🧾 Cargos
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    🕐 Asistencia
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    📅 Horarios
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    📝 Permisos
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    🌴 Vacaciones
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    📊 Evaluaciones
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    📢 Comunicaciones
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    ⚙️ Configuración
+                </a>
+            </li>
+
+        </ul>
+
+    </aside>
+
+
+    <!-- =========================
+         CONTENIDO PRINCIPAL
+    ========================== -->
+
+    <main class="main">
+
+        <div class="topbar">
+
+            <h1>Dashboard</h1>
+
+            <div class="user-box">
+
+                <strong>{{ session.get("username") }}</strong>
+
+                <span class="role">
+                    {{ session.get("rol", "SIN ROL") }}
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- BIENVENIDA -->
+
+        <div class="welcome">
+
+            <h2>
+                Bienvenido, {{ session.get("username") }}
+            </h2>
+
+            <p>
+                Este es el panel principal del Sistema Administrativo.
+            </p>
+
+        </div>
+
+
+        <!-- TARJETAS -->
+
+        <div class="cards">
+
+            <div class="card">
+                <div class="card-title">
+                    Empleados
+                </div>
+
+                <div class="card-number">
+                    —
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-title">
+                    Usuarios
+                </div>
+
+                <div class="card-number">
+                    1
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-title">
+                    Roles
+                </div>
+
+                <div class="card-number">
+                    5
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-title">
+                    Permisos
+                </div>
+
+                <div class="card-number">
+                    51
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- ACCESOS RÁPIDOS -->
+
+        <div class="section">
+
+            <h3>
+                Accesos rápidos
+            </h3>
+
+            <div class="quick-actions">
+
+                <a href="#" class="action">
+                    <strong>👥 Empleados</strong>
+                    <span>Administrar empleados</span>
+                </a>
+
+                <a href="#" class="action">
+                    <strong>👤 Usuarios</strong>
+                    <span>Administrar usuarios</span>
+                </a>
+
+                <a href="#" class="action">
+                    <strong>🔐 Roles</strong>
+                    <span>Administrar roles</span>
+                </a>
+
+                <a href="#" class="action">
+                    <strong>🛡️ Permisos</strong>
+                    <span>Administrar permisos</span>
+                </a>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

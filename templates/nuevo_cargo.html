@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Nuevo cargo - Sistema Administrativo</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            width: 250px;
+            background: #0f172a;
+            color: white;
+            padding: 24px 16px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            padding: 0 12px 30px;
+            border-bottom: 1px solid #334155;
+            margin-bottom: 20px;
+        }
+
+        .logo small {
+            display: block;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 5px;
+            font-weight: normal;
+        }
+
+        .menu {
+            list-style: none;
+        }
+
+        .menu li {
+            margin-bottom: 6px;
+        }
+
+        .menu a {
+            display: block;
+            text-decoration: none;
+            color: #cbd5e1;
+            padding: 12px 14px;
+            border-radius: 8px;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* =========================
+           CONTENIDO
+        ========================= */
+
+        .main {
+            flex: 1;
+            padding: 30px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .topbar h1 {
+            font-size: 28px;
+            color: #0f172a;
+        }
+
+        .user-box {
+            background: white;
+            padding: 12px 18px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .user-box strong {
+            color: #0f172a;
+        }
+
+        .role {
+            display: block;
+            color: #2563eb;
+            font-size: 13px;
+            margin-top: 3px;
+        }
+
+        /* =========================
+           PANEL
+        ========================= */
+
+        .panel {
+            background: white;
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            max-width: 800px;
+        }
+
+        .panel-header {
+            margin-bottom: 25px;
+        }
+
+        .panel-header h2 {
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .panel-header p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        /* =========================
+           FORMULARIO
+        ========================= */
+
+        .campo {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        .campo label {
+            font-weight: bold;
+            margin-bottom: 7px;
+            color: #334155;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            font-family: inherit;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.10);
+        }
+
+        /* =========================
+           BOTONES
+        ========================= */
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 11px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e1;
+        }
+
+        /* =========================
+           MENSAJES
+        ========================= */
+
+        .flash {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .flash.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        .flash.success {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- =========================
+         MENÚ
+    ========================== -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            Sistema Administrativo
+
+            <small>
+                Panel de administración
+            </small>
+
+        </div>
+
+        <ul class="menu">
+
+            <li>
+                <a href="{{ url_for('dashboard') }}">
+                    🏠 Inicio
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('usuarios') }}">
+                    👤 Usuarios
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('roles') }}">
+                    🔐 Roles
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('empresas') }}">
+                    🏢 Empresas
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('sucursales') }}">
+                    🏬 Sucursales
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('areas') }}">
+                    🗂️ Áreas
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('cargos') }}"
+                   class="active">
+                    🧾 Cargos
+                </a>
+            </li>
+
+        </ul>
+
+    </aside>
+
+
+    <!-- =========================
+         CONTENIDO
+    ========================== -->
+
+    <main class="main">
+
+        <div class="topbar">
+
+            <h1>
+                Nuevo cargo
+            </h1>
+
+            <div class="user-box">
+
+                <strong>
+                    {{ session.get("username") }}
+                </strong>
+
+                <span class="role">
+                    {{ session.get("rol", "SIN ROL") }}
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="panel">
+
+            <div class="panel-header">
+
+                <h2>
+                    Registrar nuevo cargo
+                </h2>
+
+                <p>
+                    Los cargos son un catálogo general (por ejemplo: Gerente, Analista) y no están
+                    vinculados a un área, sucursal ni empresa en particular.
+                </p>
+
+            </div>
+
+
+            <!-- MENSAJES -->
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% if messages %}
+
+                    {% for category, message in messages %}
+
+                        <div class="flash {{ category }}">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+            {% endwith %}
+
+
+            <!-- FORMULARIO -->
+
+            <form method="POST">
+
+                <div class="campo">
+
+                    <label for="nombre">
+                        Nombre del cargo *
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nombre"
+                        name="nombre"
+                        maxlength="150"
+                        required
+                        placeholder="Ej.: Analista de Sistemas">
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label for="descripcion">
+                        Descripción
+                    </label>
+
+                    <textarea
+                        id="descripcion"
+                        name="descripcion"
+                        rows="3"
+                        placeholder="Descripción del cargo (opcional)"></textarea>
+
+                </div>
+
+
+                <!-- BOTONES -->
+
+                <div class="actions">
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary">
+
+                        💾 Crear cargo
+
+                    </button>
+
+
+                    <a
+                        href="{{ url_for('cargos') }}"
+                        class="btn btn-secondary">
+
+                        Cancelar
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>
